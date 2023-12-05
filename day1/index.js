@@ -1,5 +1,5 @@
 const fs = require('fs');
-const lines = ['eighthree']; //  fs.readFileSync('./input.txt', 'utf-8').split('\n');
+const lines = fs.readFileSync('./input.txt', 'utf-8').split('\n');
 const numMapping = {
   'one': 1,
   'two': 2,
@@ -11,21 +11,18 @@ const numMapping = {
   'eight': 8,
   'nine': 9,
 };
-const nums = lines.map((line, index) => {
-  const nums = /(?=(eight)|(three))/.exec(line)
-  const first = nums[0];
-  const last = nums[nums.length - 1];
-  const out = `${numMapping[first] ?? first}${numMapping[last] ?? last}`
-  if (index > -1) {
-    console.log(line);
-    console.log(nums);
-    console.log(out);
-    console.log('');
+let output = 0;
+lines.forEach((line) => {
+  const matches = line.matchAll(/(?=([0-9]|one|two|three|four|five|six|seven|eight|nine))/g)
+  let first = null;
+  let last = null;
+  for (const [_, match] of matches) {
+    if (!first) {
+      first = match;
+    }
+    last = match;
   }
-  if (out.length !== 2) {
-    console.log('ruh roh', out, out.length);
-  }
-  return parseInt(out, 10);
+  const out = `${numMapping[first] ?? first}${numMapping[last] ?? last}`;
+  output += parseInt(out, 10);
 });
-const output = nums.reduce((out, curr) => out + curr, 0);
 console.log(output);
