@@ -91,9 +91,6 @@ const partOne = () => {
         taking.push(rawNumber);
       }
     }
-    if (rowNum < 10) {
-      console.log(line, taking);
-    }
   });
   console.log('Part one', sum);
 }
